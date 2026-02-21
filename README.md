@@ -24,7 +24,6 @@ An API built to manage vehicle records. This application allows users to create,
 5. Access the API Documentation:
     Once the server is running, open your browser and navigate to:
     * Swagger UI (Interactive Docs): http://127.0.0.1:8000/docs
-    * ReDoc: http://127.0.0.1:8000/redoc
 
 ---
 
