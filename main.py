@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from contextlib import asynccontextmanager
 
 from typing import Annotated, List
 import random
@@ -31,10 +32,13 @@ def _get_unique_vin(db: Session):
         if not existing_vehicle:
             return new_vin
 
+#to prevent running when doing tests
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
 
-Base.metadata.create_all(bind=engine)
-
-app = FastAPI(title="Vehicle Database")
+app = FastAPI(title="Vehicle Database", lifespan=lifespan)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
